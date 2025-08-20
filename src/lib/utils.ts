@@ -33,14 +33,3 @@ export async function sha256(value: string): Promise<Base64> {
   const buffer = await crypto.subtle.digest("SHA-256", bytes);
   return toBase64(buffer);
 }
-
-export function newRandomId(): string {
-  const array = new Uint8Array(20);
-  crypto.getRandomValues(array);
-  return (
-    "_" +
-    Array.from(array)
-      .map((b) => b.toString(16).padStart(2, "0"))
-      .join("")
-  );
-}

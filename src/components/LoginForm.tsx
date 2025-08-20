@@ -1,6 +1,8 @@
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import moment from "moment";
 import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -19,10 +21,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { App, appIdpEntityId } from "@/lib/app";
-import { useEffect, useMemo, useRef, useState } from "react";
 import { encodeAssertion } from "@/lib/saml";
-import { newRandomId } from "@/lib/utils";
-import moment from "moment";
 import { INSECURE_PRIVATE_KEY } from "@/lib/insecure-cert";
 
 const FormSchema = z.object({
@@ -87,7 +86,7 @@ export function LoginForm({
 
       setAssertion(
         await encodeAssertion(key, {
-          responseId: newRandomId(),
+          responseId: crypto.randomUUID(),
           assertionId: crypto.randomUUID(),
           idpEntityId: appIdpEntityId(app),
           subjectId: user.email,
