@@ -64,18 +64,18 @@ function createAssertionElement(
 
 function createSignedInfoElement(assertionId: string, digest: string): string {
   return xml`
-<SignedInfo xmlns="http://www.w3.org/2000/09/xmldsig#">
-  <CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"></CanonicalizationMethod>
-  <SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"></SignatureMethod>
-  <Reference URI="#${assertionId}">
-    <Transforms>
-      <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"></Transform>
-      <Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"></Transform>
-    </Transforms>
-    <DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
-    <DigestValue>${digest}</DigestValue>
-  </Reference>
-</SignedInfo>`;
+<ds:SignedInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+  <ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"></ds:CanonicalizationMethod>
+  <ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"></ds:SignatureMethod>
+  <ds:Reference URI="#${assertionId}">
+    <ds:Transforms>
+      <ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"></ds:Transform>
+      <ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"></ds:Transform>
+    </ds:Transforms>
+    <ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></ds:DigestMethod>
+    <ds:DigestValue>${digest}</ds:DigestValue>
+  </ds:Reference>
+</ds:SignedInfo>`;
 }
 
 function createSignatureElement(
@@ -84,22 +84,22 @@ function createSignatureElement(
   keyInfoElement: string,
 ): string {
   return xml`
-<Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+<ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
   ${signedInfoElement}
-  <SignatureValue>${signature}</SignatureValue>
+  <ds:SignatureValue>${signature}</ds:SignatureValue>
   ${keyInfoElement}
-</Signature>`;
+</ds:Signature>`;
 }
 
 function createKeyInfoElement(certificate: string): string {
   return xml`
-<KeyInfo xmlns="http://www.w3.org/2000/09/xmldsig#">
-  <X509Data>
-    <X509Certificate>
+<ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+  <ds:X509Data>
+    <ds:X509Certificate>
       ${certificate}
-    </X509Certificate>
-  </X509Data>
-</KeyInfo>`;
+    </ds:X509Certificate>
+  </ds:X509Data>
+</ds:KeyInfo>`;
 }
 
 function createStatusSuccessElement(): string {

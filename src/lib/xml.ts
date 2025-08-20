@@ -1,8 +1,9 @@
 export function xml(strings: TemplateStringsArray, ...values: any[]): string {
-  return values
+  return strings
     .reduce(
-      (result, value, index) => result + String(value) + strings[index + 1],
-      strings[0] as string,
+      (result, s, i) =>
+        result + s + (i < values.length ? String(values[i]) : ""),
+      "",
     )
     .replace(/\r?\n/g, " ") // newlines -> spaces
     .replace(/\t/g, " ") // tabs -> spaces
