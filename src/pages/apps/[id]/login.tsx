@@ -20,6 +20,8 @@ export default function Page() {
     ? atob(router.query.SAMLRequest as string)
     : "";
 
+  const relayState = router.query.RelayState as string || ""
+
   return (
     <Layout>
       <Head>
@@ -53,7 +55,7 @@ export default function Page() {
             <DocsLink to="https://ssoready.com/docs/dummyidp#simulating-saml-logins" />
           </p>
 
-          {app && <LoginCard app={app} samlRequest={samlRequest} />}
+          {app && <LoginCard app={app} samlRequest={samlRequest} relayState={relayState}/>}
         </div>
       </div>
     </Layout>

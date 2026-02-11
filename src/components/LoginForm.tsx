@@ -34,10 +34,12 @@ export function LoginForm({
   app,
   samlRequest,
   onAssertionChange,
+  relayState
 }: {
   app: App;
   samlRequest: string;
   onAssertionChange: (assertion: string) => void;
+  relayState: string;
 }) {
   const sessionId = useMemo(() => {
     if (samlRequest === "") {
@@ -86,8 +88,8 @@ export function LoginForm({
 
       setAssertion(
         await encodeAssertion(key, {
-          responseId: crypto.randomUUID(),
-          assertionId: crypto.randomUUID(),
+          responseId: 'ID_12345',
+          assertionId: 'ID_67890',
           idpEntityId: appIdpEntityId(app),
           subjectId: user.email,
           firstName: user.firstName,
@@ -117,6 +119,7 @@ export function LoginForm({
     <div>
       <form method="post">
         <input type="hidden" name="SAMLResponse" ref={inputRef} />
+        <input type="hidden" name="RelayState" value={relayState}/>
       </form>
 
       <Form {...form}>

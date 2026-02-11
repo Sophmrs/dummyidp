@@ -22,9 +22,11 @@ import { DocsLink } from "@/components/DocsLink";
 export default function LoginCard({
   app,
   samlRequest,
+  relayState
 }: {
   app: App;
   samlRequest: string;
+  relayState: string;
 }) {
   const [assertion, setAssertion] = useState("");
 
@@ -44,6 +46,7 @@ export default function LoginCard({
             <LoginForm
               app={app}
               samlRequest={samlRequest}
+              relayState={relayState}
               onAssertionChange={setAssertion}
             />
           ) : (

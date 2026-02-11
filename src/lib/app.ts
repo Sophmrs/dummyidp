@@ -117,17 +117,24 @@ export async function upsertApp(app: App): Promise<void> {
           }),
         });
       } else {
-        await fetch(`${app.scimBaseUrl}/Users`, {
-          method: "POST",
-          headers: { Authorization: `Bearer ${app.scimBearerToken}` },
-          body: JSON.stringify({
+        const body = {
+            schemas: ["urn:ietf:params:scim:schemas:core:2.0:User"],
+            active: true,
             userName: user.email,
+            externalId: user.email,
             name: {
               givenName: user.firstName,
               familyName: user.lastName,
             },
-          }),
-        });
+            emails: [{value: user.email, type: "work", primary: true}],
+            roles:[{value:"enterprise_owner",primary:true},{value:"user",primary:false}]
+          }
+        const response = await fetch(`${app.scimBaseUrl}/Users`, {
+          method: "POST",
+          headers: { Authorization: `Bearer ${app.scimBearerToken}` },
+          body: JSON.stringify(body),
+        })
+
       }
     }
 
